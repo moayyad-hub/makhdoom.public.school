@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Makhdoom Public School</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#17253c}
+button,input{font:inherit}
+button{cursor:pointer}
+.login{min-height:100vh;display:grid;place-items:center;padding:20px}
+.login-card{background:white;padding:32px;border-radius:18px;width:100%;max-width:410px;box-shadow:0 12px 40px #10294b15}
+.logo{background:#17365d;color:white;border-radius:13px;padding:14px;text-align:center;font-size:28px;width:62px;margin-bottom:18px}
+h1,h2,h3,p{margin-top:0}
+.login-card h1{font-size:25px}
+.muted{color:#718096;font-size:14px;line-height:1.6}
+label{display:block;margin:16px 0 7px;font-size:14px;font-weight:bold}
+input,select{width:100%;padding:12px;border:1px solid #d8e0eb;border-radius:8px;background:white}
+.btn{background:#17365d;color:white;border:0;padding:12px 16px;border-radius:8px}
+.btn:hover{background:#254c7a}
+.full{width:100%;margin-top:18px}
+.error{color:#b42318;font-size:13px;margin-top:12px}
+.app{display:none;min-height:100vh}
+.sidebar{position:fixed;inset:0 auto 0 0;width:245px;background:#17365d;color:white;padding:24px 15px;overflow:auto}
+.brand{font-size:18px;font-weight:bold;padding:5px 10px 25px;line-height:1.5}
+.brand small{display:block;color:#c7d8ee;font-weight:normal;font-size:12px}
+.nav{display:block;width:100%;text-align:left;padding:12px;border:0;border-radius:8px;background:transparent;color:#e2eaf5;margin:4px 0}
+.nav:hover,.nav.active{background:#ffffff20;color:white}
+.main{margin-left:245px;padding:28px;max-width:1600px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:26px}
+.top h1{font-size:25px;margin-bottom:5px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:22px}
+.card{background:white;padding:20px;border-radius:13px;border:1px solid #e7ecf3;min-width:0}
+.metric{font-size:27px;font-weight:bold;margin:12px 0 5px}
+.section{display:none}
+.section.active{display:block}
+.panel-title{font-size:19px;margin-bottom:18px}
+table{width:100%;border-collapse:collapse;background:white}
+th,td{text-align:left;padding:13px;border-bottom:1px solid #e8edf4;font-size:14px}
+th{color:#68788e;background:#f9fafc}
+.table-wrap{overflow-x:auto;border-radius:12px;border:1px solid #e7ecf3}
+.tag{display:inline-block;padding:5px 9px;border-radius:20px;font-size:12px;background:#e6f6ed;color:#176b40}
+.tag.pending{background:#fff0d7;color:#8b5b0b}
+.content-card{background:white;border:1px solid #e7ecf3;border-radius:13px;padding:20px;margin-bottom:18px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.actions button{border:1px solid #d8e0eb;background:white;padding:9px 12px;border-radius:7px}
+.notice{padding:12px;background:#edf5ff;border-radius:8px;color:#234d7b;font-size:13px;line-height:1.6}
+footer{padding:24px 0;color:#7a8798;font-size:12px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sidebar{width:205px}.main{margin-left:205px;padding:20px}}
+@media(max-width:650px){.sidebar{position:static;width:100%;padding:14px}.brand{padding:5px 8px 12px}.navs{display:flex;overflow-x:auto;gap:5px}.nav{white-space:nowrap;width:auto;padding:10px}.main{margin:0;padding:16px}.grid{gap:10px}.card{padding:14px}.metric{font-size:22px}.top h1{font-size:20px}.login-card{padding:24px}}
+</style>
+</head>
+<body>
+
+<div class="login" id="login">
+  <div class="login-card">
+    <div class="logo">MPS</div>
+    <h1>Makhdoom Public School</h1>
+    <p class="muted">School Management Portal<br>Sign in to explore the demo.</p>
+    <form id="loginForm">
+      <label for="email">Demo email</label>
+      <input id="email" type="email" placeholder="admin@demo.com" required>
+      <label for="password">Demo password</label>
+      <input id="password" type="password" placeholder="Enter demo password" required>
+      <button class="btn full" type="submit">Sign in</button>
+      <div id="error" class="error"></div>
+    </form>
+    <div class="notice" style="margin-top:20px">
+      <b>Demo accounts</b><br>
+      Admin: admin@demo.com<br>
+      Teacher: teacher@demo.com<br>
+      Student: student@demo.com<br>
+      Parent: parent@demo.com<br>
+      Demo password for all: <b>Demo123!</b>
+    </div>
+    <p class="muted" style="margin-top:16px">Sample data only. Do not enter real school or personal information.</p>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <aside class="sidebar">
+    <div class="brand">🎓 Makhdoom Public School<small>Management Portal</small></div>
+    <div class="navs">
+      <button class="nav active" data-page="dashboard">▦ Dashboard</button>
+      <button class="nav" data-page="students">♙ Students</button>
+      <button class="nav" data-page="attendance">✓ Attendance</button>
+      <button class="nav" data-page="results">▤ Results</button>
+      <button class="nav" data-page="fees">▣ Fees</button>
+      <button class="nav" data-page="timetable">◷ Timetable</button>
+      <button class="nav" data-page="homework">✎ Homework</button>
+      <button class="nav" data-page="admissions">＋ Admissions</button>
+      <button class="nav" data-page="parents">♧ Parent Portal</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="top">
+      <div><h1 id="pageTitle">Dashboard</h1><p class="muted" id="welcome">Welcome to your school portal.</p></div>
+      <button class="btn" id="logout">Sign out</button>
+    </header>
+
+    <section class="section active" id="dashboard">
+      <div class="grid">
+        <div class="card"><span class="muted">Students</span><div class="metric">520</div><span class="muted">Sample total</span></div>
+        <div class="card"><span class="muted">Teachers</span><div class="metric">32</div><span class="muted">Sample total</span></div>
+        <div class="card"><span class="muted">Attendance</span><div class="metric">92%</div><span class="muted">Sample today</span></div>
+        <div class="card"><span class="muted">Pending fees</span><div class="metric">48</div><span class="muted">Sample invoices</span></div>
+      </div>
+      <div class="content-card"><h2 class="panel-title">Welcome to Makhdoom Public School</h2><p class="muted">Manage student records, attendance, examinations, fees, timetables and school activities from one place.</p><div class="notice">This is a front-end demonstration. Numbers and records are illustrative, not real school data.</div></div>
+      <div class="content-card"><h2 class="panel-title">School announcements</h2><p>Welcome to the new school management portal demo.</p><p class="muted">Connect a secure database to publish official announcements.</p></div>
+    </section>
+
+    <section class="section" id="students">
+      <div class="content-card"><h2 class="panel-title">Student Directory</h2><div class="actions"><input id="studentSearch" placeholder="Search name or student ID" style="max-width:350px"></div><div class="table-wrap"><table><thead><tr><th>Student ID</th><th>Name</th><th>Class</th><th>Attendance</th></tr></thead><tbody id="studentRows"></tbody></table></div></div>
+    </section>
+
+    <section class="section" id="attendance">
+      <div class="content-card"><h2 class="panel-title">Daily Attendance</h2><p class="muted">Change a demo student's status and save the selection for this session.</p><div class="table-wrap"><table><thead><tr><th>Student</th><th>Class</th><th>Status</th></tr></thead><tbody id="attendanceRows"></tbody></table></div><button class="btn" style="margin-top:16px" id="saveAttendance">Save demo attendance</button><p class="muted" id="attendanceMessage" style="margin-top:12px"></p></div>
+    </section>
+
+    <section class="section" id="results">
+      <div class="content-card"><h2 class="panel-title">Examination Results</h2><div class="table-wrap"><table><thead><tr><th>Student</th><th>Exam</th><th>Marks</th><th>Percentage</th></tr></thead><tbody id="resultRows"></tbody></table></div></div>
+    </section>
+
+    <section class="section" id="fees">
+      <div class="content-card"><h2 class="panel-title">Fee Management</h2><div class="table-wrap"><table><thead><tr><th>Student</th><th>Invoice</th><th>Amount</th><th>Status</th></tr></thead><tbody id="feeRows"></tbody></table></div></div>
+    </section>
+
+    <section class="section" id="timetable">
+      <div class="content-card"><h2 class="panel-title">Class Timetable</h2><div class="table-wrap"><table><thead><tr><th>Time</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th></tr></thead><tbody><tr><td>08:00–08:40</td><td>English</td><td>Mathematics</td><td>Science</td></tr><tr><td>08:40–09:20</td><td>Mathematics</td><td>Urdu</td><td>English</td></tr><tr><td>09:20–10:00</td><td>Science</td><td>English</td><td>Mathematics</td></tr><tr><td>10:30–11:10</td><td>Urdu</td><td>Science</td><td>Computer</td></tr></tbody></table></div></div>
+    </section>
+
+    <section class="section" id="homework">
+      <div class="content-card"><h2 class="panel-title">Homework</h2><div class="table-wrap"><table><thead><tr><th>Class</th><th>Subject</th><th>Assignment</th><th>Due date</th></tr></thead><tbody><tr><td>8-A</td><td>Mathematics</td><td>Chapter 4 exercises</td><td>Friday</td></tr><tr><td>8-A</td><td>English</td><td>Essay writing</td><td>Monday</td></tr><tr><td>7-B</td><td>Science</td><td>Prepare chapter notes</td><td>Wednesday</td></tr></tbody></table></div></div>
+    </section>
+
+    <section class="section" id="admissions">
+      <div class="content-card"><h2 class="panel-title">Online Admission Enquiry</h2><p class="muted">This demo form does not send or store applications.</p><form id="admissionForm"><label>Applicant name</label><input id="applicant" required><label>Requested class</label><select id="requestedClass"><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option></select><button class="btn" style="margin-top:16px">Preview application</button></form><p id="admissionMessage" class="muted" style="margin-top:15px"></p></div>
+    </section>
+
+    <section class="section" id="parents">
+      <div class="content-card"><h2 class="panel-title">Parent Portal</h2><p class="muted">Parents will be able to see linked children's attendance, published results, fee invoices, homework and school announcements after secure account linking is implemented.</p><div class="notice">Demo only: no real parent or child accounts are linked.</div></div>
+    </section>
+
+    <footer>Makhdoom Public School · Demo Portal · Sample information only</footer>
+  </main>
+</div>
+
+<script>
+const demoUsers = {
+  "admin@demo.com": {name:"School Admin",role:"Super Admin"},
+  "teacher@demo.com": {name:"Demo Teacher",role:"Teacher"},
+  "student@demo.com": {name:"Demo Student",role:"Student"},
+  "parent@demo.com": {name:"Demo Parent",role:"Parent"}
+};
+const students = [
+  {id:"MPS-1001",name:"Ali Ahmed",cls:"8-A",attendance:92,marks:"435/500",fee:"Paid",status:"Present"},
+  {id:"MPS-1002",name:"Ayesha Khan",cls:"8-A",attendance:86,marks:"458/500",fee:"Pending",status:"Absent"},
+  {id:"MPS-1003",name:"Hamza Malik",cls:"7-B",attendance:95,marks:"402/500",fee:"Paid",status:"Present"},
+  {id:"MPS-1004",name:"Fatima Noor",cls:"7-B",attendance:89,marks:"421/500",fee:"Pending",status:"Present"},
+  {id:"MPS-1005",name:"Usman Ali",cls:"6-A",attendance:91,marks:"390/500",fee:"Paid",status:"Late"}
+];
+const attendanceStatus = ["Present","Absent","Leave","Late"];
+const app = document.getElementById("app");
+const login = document.getElementById("login");
+const error = document.getElementById("error");
+
+document.getElementById("loginForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const email=document.getElementById("email").value.trim().toLowerCase();
+  const password=document.getElementById("password").value;
+  if(demoUsers[email] && password==="Demo123!"){
+    const user=demoUsers[email];
+    document.getElementById("welcome").textContent=`Welcome, ${user.name} · ${user.role}`;
+    login.style.display="none";
+    app.style.display="block";
+    error.textContent="";
+    renderTables();
+  }else{
+    error.textContent="Demo login invalid. Use a listed demo email and password Demo123!";
+  }
+});
+document.getElementById("logout").addEventListener("click",()=>{
+  app.style.display="none";login.style.display="grid";
+  document.getElementById("password").value="";
+});
+document.querySelectorAll(".nav").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".nav").forEach(n=>n.classList.remove("active"));
+    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.page).classList.add("active");
+    document.getElementById("pageTitle").textContent=btn.textContent.trim().replace(/^[^\w]+/,"");
+  });
+});
+function renderTables(){
+  document.getElementById("studentRows").innerHTML=students.map(s=>`<tr><td>${s.id}</td><td>${s.name}</td><td>${s.cls}</td><td>${s.attendance}%</td></tr>`).join("");
+  document.getElementById("attendanceRows").innerHTML=students.map((s,i)=>`<tr><td>${s.name}</td><td>${s.cls}</td><td><select data-index="${i}" class="statusSelect">${attendanceStatus.map(st=>`<option ${s.status===st?"selected":""}>${st}</option>`).join("")}</select></td></tr>`).join("");
+  document.getElementById("resultRows").innerHTML=students.map(s=>`<tr><td>${s.name}</td><td>Term Examination</td><td>${s.marks}</td><td>${(Number(s.marks.split("/")[0])/Number(s.marks.split("/")[1])*100).toFixed(1)}%</td></tr>`).join("");
+  document.getElementById("feeRows").innerHTML=students.map(s=>`<tr><td>${s.name}</td><td>Monthly fee</td><td>PKR 5,000</td><td><span class="tag ${s.fee==="Pending"?"pending":""}">${s.fee}</span></td></tr>`).join("");
+}
+document.getElementById("studentSearch").addEventListener("input",e=>{
+  const q=e.target.value.toLowerCase();
+  document.querySelectorAll("#studentRows tr").forEach(row=>{
+    row.style.display=row.textContent.toLowerCase().includes(q)?"":"none";
+  });
+});
+document.getElementById("saveAttendance").addEventListener("click",()=>{
+  document.querySelectorAll(".statusSelect").forEach(select=>{
+    students[Number(select.dataset.index)].status=select.value;
+  });
+  document.getElementById("attendanceMessage").textContent="Demo attendance updated in this browser session only. No database was changed.";
+});
+document.getElementById("admissionForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  document.getElementById("admissionMessage").textContent=
+    "Preview only: "+document.getElementById("applicant").value+
+    " — "+document.getElementById("requestedClass").value+
+    ". This application has not been submitted to the school.";
+});
+</script>
+</body>
+</html>
